@@ -1,14 +1,17 @@
-/* Ghostfeed Theme - Dark & Moody */
+/* Ghostfeed Theme - Mirror's Edge Inspired */
 
 :root {
-    --background-color: #1e2d47; /* New Dark Blue/Gray */
-    --text-color: #a2d0d8;       /* New Light Blue/Gray */
-    --primary-color: #324b77;    /* New Medium Blue */
-    --secondary-color: #546d71;   /* New Grayish Blue */
-    --accent-color: #74e6f7;     /* New Bright Cyan */
-    --link-color: #74e6f7;       /* New Bright Cyan */
-    --link-hover-color: #a2d0d8; /* New Light Blue/Gray */
-    --border-color: #546d71;     /* New Grayish Blue */
+    --background-color: #FFFFFF; /* White */
+    --text-color: #333333;       /* Dark Gray */
+    --primary-color: #F8F8F8;    /* Very Light Gray */
+    --secondary-color: #E0E0E0;   /* Light Gray */
+    --accent-color: #FF0000;     /* Red */
+    --link-color: #007FFF;       /* Bright Blue */
+    --link-hover-color: #FF0000; /* Red */
+    --border-color: #CCCCCC;     /* Medium Gray */
+    --padding-large: 20px;
+    --padding-medium: 10px;
+    --padding-small: 5px;
 }
 
 body {
@@ -18,81 +21,134 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    display: flex;
+    min-height: 100vh; /* Keep min-height */
+    display: grid; /* Make body a grid container */
+    grid-template-rows: 1fr auto; /* Content | Footer */
+    grid-template-columns: 1fr; /* Single column layout */
+    grid-template-areas:
+        /* "search" Removed */
+        "content"
+        "footer";
+}
+
+/* Layout Grid */
+.container {
+    display: grid;
+    grid-template-columns: 18.2fr 61.8fr 18.2fr; /* Keep column proportions */
+    grid-template-rows: auto 1fr; /* Row for search, row for main content */
+    grid-template-areas:
+        "search   search   search"
+        "col-left main     col-right"; /* Adjusted areas */
+    gap: var(--padding-large);
+    padding: var(--padding-large);
+    grid-area: content; /* Assign to grid area in body */
+}
+
+/* Wrapper for the left column items */
+.left-column-wrapper {
+    grid-area: col-left;
+    display: flex; /* Use flexbox to stack nav and QR */
     flex-direction: column;
-    min-height: 100vh;
+    gap: var(--padding-large); /* Space between nav and QR */
+    align-items: stretch; /* Make children fill width */
+}
+
+.nav-left {
+    /* grid-area removed, now part of flexbox */
+    padding: var(--padding-large); /* Use variable */
+    background-color: var(--primary-color);
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    /* align-self: start removed, flex handles alignment */
 }
 
 main {
-    flex-grow: 1;
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 0 20px;
-    width: 90%;
+    grid-area: main;
+    padding: 0; /* Remove old padding */
+    /* grid-row removed, now aligns with single row */
 }
 
-header, footer {
-    background-color: var(--secondary-color);
-    padding: 1rem 0;
+.nav-right {
+    grid-area: col-right; /* Renamed grid area */
+    padding: var(--padding-large); /* Use variable */
+    background-color: var(--primary-color);
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    /* grid-row removed */
+    align-self: start; /* Keep aligned to top */
+}
+
+/* QR Code Styling */
+.qr-code-container {
+    /* grid-area removed, now part of flexbox */
+    background-color: var(--primary-color);
+    border: 1px solid var(--border-color);
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: var(--padding-large);
     text-align: center;
-}
-
-header nav {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 20px;
     display: flex;
-    flex-direction: column; /* Stack title and taxonomy sections */
+    flex-direction: column;
     align-items: center;
+    justify-content: center; /* Center content vertically if needed */
+    /* align-self: start removed, flex handles alignment */
 }
 
-header h1 a {
-    color: var(--accent-color);
-    text-decoration: none;
-    font-size: 2rem;
-    margin-bottom: 1rem; /* Space below title */
+.qr-code-container img {
+    max-width: 80%; /* Adjust size as needed */
+    height: auto;
+    display: block; /* Remove extra space below image */
+    margin-bottom: var(--padding-medium);
 }
 
-header h1 a:hover {
-    color: var(--link-hover-color);
+.qr-code-container p {
+    margin: 0;
+    font-weight: bold;
+    color: var(--text-color);
 }
 
-header nav > div {
-    display: flex;
-    gap: 2rem; /* Space between categories and tags */
-    justify-content: center;
-    width: 100%;
-    margin-top: 1rem;
-    flex-wrap: wrap; /* Allow wrapping on smaller screens */
-}
-
-header section {
-    text-align: left;
-}
-
-header h2 {
+/* Styling for the new nav/sidebar sections */
+.nav-left h2, .nav-right h2 {
     color: var(--accent-color);
     font-size: 1.1rem;
     border-bottom: 1px solid var(--border-color);
-    padding-bottom: 0.3rem;
-    margin-bottom: 0.5rem;
+    padding-bottom: var(--padding-medium); /* Use variable */
+    margin-top: 0; /* Remove default margin */
+    margin-bottom: var(--padding-medium); /* Use variable */
 }
 
-header ul {
+.nav-left ul, .nav-right ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-header li a {
+.nav-left li a, .nav-right li a {
+    display: block; /* Make links easier to click */
+    padding: var(--padding-small) 0; /* Use variable */
     text-decoration: none;
     color: var(--link-color);
     font-size: 0.9rem;
 }
 
-header li a:hover {
+.nav-left li a:hover, .nav-right li a:hover {
     color: var(--link-hover-color);
-    text-decoration: underline;
+    /* text-decoration: underline; */ /* Optional */
+}
+
+/* Adjust header styling */
+/* header nav { */
+    /* Remove all specific centering attempts */
+    /* Let the parent flexbox handle positioning */
+/* } */
+
+footer {
+    background-color: var(--secondary-color);
+    padding: var(--padding-large);
+    text-align: center;
+    margin-top: 2rem; /* Might need adjustment with grid */
+    font-size: 0.9em;
+    grid-area: footer; /* Assign to grid area */
 }
 
 a {
@@ -113,17 +169,17 @@ h1, h2, h3, h4, h5, h6 {
 article.post-preview {
     background-color: var(--primary-color);
     border: 1px solid var(--border-color);
-    padding: 15px;
-    margin-bottom: 20px;
+    padding: var(--padding-large); /* Use variable */
+    margin-bottom: var(--padding-large); /* Use variable for consistency */
     border-radius: 5px;
 }
 
 article.post-preview h3 a {
-     color: var(--text-color);
+     color: var(--accent-color); /* Use accent color (Red) */
 }
 
 article.post-preview h3 a:hover {
-     color: var(--link-hover-color);
+     color: var(--text-color); /* Use standard text color on hover */
      text-decoration: none;
 }
 
@@ -165,34 +221,29 @@ article.post section {
 code, pre {
     background-color: var(--secondary-color);
     border: 1px solid var(--border-color);
-    padding: 2px 5px;
+    padding: var(--padding-small) var(--padding-medium); /* Use variables */
     border-radius: 3px;
     font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
 }
 
 pre {
-    padding: 15px;
+    padding: var(--padding-large); /* Use variable */
     overflow-x: auto;
 }
 
 blockquote {
     border-left: 4px solid var(--accent-color);
     margin-left: 0;
-    padding-left: 15px;
+    padding-left: var(--padding-large); /* Use variable */
     color: var(--text-color); /* Use variable */
     font-style: italic;
-}
-
-footer {
-    margin-top: 2rem;
-    font-size: 0.9em;
 }
 
 /* Shortcodes */
 
 aside.notice {
-    padding: 1em;
-    margin: 1.5em 0;
+    padding: var(--padding-large); /* Use variable */
+    margin: 1.5em 0; /* Keep em for relative vertical margin */
     border-left: 5px solid var(--link-color);
     background-color: rgba(83, 168, 182, 0.1); /* Lighter version of link color */
     border-radius: 4px;
@@ -204,22 +255,72 @@ aside.notice p:last-child {
 
 /* Specific notice types (add more as needed) */
 aside.notice-info {
-    border-left-color: var(--link-color);
-    /* Use rgba equivalent of the new --link-color #74e6f7 */
-    background-color: rgba(116, 230, 247, 0.1);
+    border-left-color: var(--link-color); /* Blue */
+    /* Use rgba equivalent of the new --link-color #007FFF */
+    background-color: rgba(0, 127, 255, 0.1);
 }
 
 aside.notice-warning {
-    border-left-color: #ffcc00; /* Yellow */
-    background-color: rgba(255, 204, 0, 0.1);
+    border-left-color: #FFA500; /* Orange */
+    background-color: rgba(255, 165, 0, 0.1);
 }
 
 aside.notice-error {
-    border-left-color: #e94560; /* Accent color (red) */
-    background-color: rgba(233, 69, 96, 0.1);
+    border-left-color: var(--accent-color); /* Red */
+    background-color: rgba(255, 0, 0, 0.1);
 }
 
 aside.notice-success {
-    border-left-color: #4caf50; /* Green */
-    background-color: rgba(76, 175, 80, 0.1);
+    border-left-color: #33CC33; /* Green */
+    background-color: rgba(51, 204, 51, 0.1);
+}
+
+/* Header Search Bar -> Now Top Search Bar within container */
+.search-container {
+    /* display: flex; Remove flexbox */
+    /* justify-content: center; Remove flexbox */
+    /* align-items: center; Remove flexbox */
+    /* padding: var(--padding-large) 0; Remove flex padding */
+    padding: var(--padding-large); /* Increase padding on all sides */
+    background-color: var(--primary-color); /* Ensure primary color background */
+    border: 1px solid var(--border-color); /* Add border */
+    border-radius: 5px; /* Add border radius */
+    /* border-bottom: 1px solid var(--border-color); Remove border, maybe handled by container gap */
+    box-sizing: border-box;
+    grid-area: search; /* Assign to search area within .container */
+}
+
+#post-search {
+    /* max-width: 61.8%; Remove max-width */
+    width: 100%; /* Make input fill the search container area */
+    padding: var(--padding-medium);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    box-sizing: border-box;
+}
+
+#post-search::placeholder {
+    color: var(--text-color); /* Style placeholder text */
+    opacity: 0.7;
+}
+
+/* Post Tags */
+.tags a {
+    display: inline-block;
+    background-color: var(--primary-color); /* Use theme variable */
+    color: var(--link-color); /* Use theme variable */
+    padding: var(--padding-small) var(--padding-medium); /* Use variables */
+    margin-right: var(--padding-small); /* Use variable */
+    margin-bottom: var(--padding-small); /* Use variable */
+    border-radius: 3px;
+    text-decoration: none;
+    font-size: 0.9em;
+    border: 1px solid var(--border-color); /* Add subtle border */
+}
+
+.tags a:hover {
+    background-color: var(--secondary-color); /* Use theme variable */
+    color: var(--link-hover-color); /* Use theme variable */
 } 

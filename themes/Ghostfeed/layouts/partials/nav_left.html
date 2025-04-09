@@ -1,0 +1,10 @@
+<h2>Sections</h2>
+<ul>
+    {{/* Explicit list removed - reverting to dynamic
+    <li><a href="{{ "/posts/" | relLangURL }}">Posts</a></li>
+    <li><a href="{{ "/archive/" | relLangURL }}">Archive</a></li>
+    */}}
+    {{ range .Site.Sections }}
+        <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+    {{ end }}
+</ul> 

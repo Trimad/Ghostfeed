@@ -1,6 +1,6 @@
 {{ define "main" }}
 <article>
-    <h1>{{ .Title }}</h1>
+    {{/* <h1>{{ .Title }}</h1> */}}
     {{ .Content }}
 
     <section>
@@ -8,6 +8,11 @@
             <article class="post-preview">
                 <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
                 <p>{{ .Description | default .Summary }}</p>
+                <div class="tags">
+                    {{ range .Params.tags }}
+                        <a href="{{ "/tags/" | relURL }}{{ . | urlize }}">{{ . }}</a>
+                    {{ end }}
+                </div>
                 <small>
                     Published: {{ .Date.Format "January 2, 2006" }}
                     {{ with .GitInfo }}

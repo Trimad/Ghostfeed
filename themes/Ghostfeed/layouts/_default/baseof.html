@@ -13,14 +13,32 @@
     {{- partialCached "rss_feed_link.html" . -}}
 </head>
 <body>
-    <header>
-        {{ block "header" . }}
-            {{ partial "header.html" . }}
-        {{ end }}
-    </header>
-    <main>
-        {{ block "main" . }}{{ end }}
-    </main>
+    <div class="container">
+        <nav class="search-container">
+            <input type="search" id="post-search" placeholder="Search posts..." aria-label="Search posts">
+        </nav>
+
+        <div class="left-column-wrapper">
+            <nav class="nav-left">
+                {{ block "nav-left" . }}
+                    {{ partial "nav_left.html" . }}
+                {{ end }}
+            </nav>
+            <div class="qr-code-container">
+                <img src="{{ "/images/BTC.svg" | relURL }}" alt="Bitcoin QR Code">
+                <p>BTC</p>
+            </div>
+        </div>
+
+        <main>
+            {{ block "main" . }}{{ end }}
+        </main>
+        <aside class="nav-right">
+            {{ block "nav-right" . }}
+                {{ partial "nav_right.html" . }}
+            {{ end }}
+        </aside>
+    </div>
     <footer>
         {{ block "footer" . }}
             {{ partial "footer.html" . }}
