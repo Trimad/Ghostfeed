@@ -1,0 +1,225 @@
+/* Ghostfeed Theme - Dark & Moody */
+
+:root {
+    --background-color: #1e2d47; /* New Dark Blue/Gray */
+    --text-color: #a2d0d8;       /* New Light Blue/Gray */
+    --primary-color: #324b77;    /* New Medium Blue */
+    --secondary-color: #546d71;   /* New Grayish Blue */
+    --accent-color: #74e6f7;     /* New Bright Cyan */
+    --link-color: #74e6f7;       /* New Bright Cyan */
+    --link-hover-color: #a2d0d8; /* New Light Blue/Gray */
+    --border-color: #546d71;     /* New Grayish Blue */
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Clean sans-serif */
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex-grow: 1;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 20px;
+    width: 90%;
+}
+
+header, footer {
+    background-color: var(--secondary-color);
+    padding: 1rem 0;
+    text-align: center;
+}
+
+header nav {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column; /* Stack title and taxonomy sections */
+    align-items: center;
+}
+
+header h1 a {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-size: 2rem;
+    margin-bottom: 1rem; /* Space below title */
+}
+
+header h1 a:hover {
+    color: var(--link-hover-color);
+}
+
+header nav > div {
+    display: flex;
+    gap: 2rem; /* Space between categories and tags */
+    justify-content: center;
+    width: 100%;
+    margin-top: 1rem;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+header section {
+    text-align: left;
+}
+
+header h2 {
+    color: var(--accent-color);
+    font-size: 1.1rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.3rem;
+    margin-bottom: 0.5rem;
+}
+
+header ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+header li a {
+    text-decoration: none;
+    color: var(--link-color);
+    font-size: 0.9rem;
+}
+
+header li a:hover {
+    color: var(--link-hover-color);
+    text-decoration: underline;
+}
+
+a {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--link-hover-color);
+    text-decoration: underline;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--accent-color);
+    margin-bottom: 0.5rem;
+}
+
+article.post-preview {
+    background-color: var(--primary-color);
+    border: 1px solid var(--border-color);
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+article.post-preview h3 a {
+     color: var(--text-color);
+}
+
+article.post-preview h3 a:hover {
+     color: var(--link-hover-color);
+     text-decoration: none;
+}
+
+article.post-preview small {
+    display: block;
+    margin-top: 10px;
+    font-size: 0.85em;
+    color: var(--text-color); /* Use variable */
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: var(--border-color);
+    margin: 30px 0;
+}
+
+article.post header {
+    background-color: transparent; /* Single post header different */
+    padding: 0;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 20px;
+}
+
+article.post header h1 {
+    font-size: 2.5rem;
+}
+
+article.post header p {
+    font-size: 0.9rem;
+    color: var(--text-color); /* Use variable */
+}
+
+article.post section {
+    margin-top: 20px;
+}
+
+code, pre {
+    background-color: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+}
+
+pre {
+    padding: 15px;
+    overflow-x: auto;
+}
+
+blockquote {
+    border-left: 4px solid var(--accent-color);
+    margin-left: 0;
+    padding-left: 15px;
+    color: var(--text-color); /* Use variable */
+    font-style: italic;
+}
+
+footer {
+    margin-top: 2rem;
+    font-size: 0.9em;
+}
+
+/* Shortcodes */
+
+aside.notice {
+    padding: 1em;
+    margin: 1.5em 0;
+    border-left: 5px solid var(--link-color);
+    background-color: rgba(83, 168, 182, 0.1); /* Lighter version of link color */
+    border-radius: 4px;
+}
+
+aside.notice p:last-child {
+    margin-bottom: 0; /* Remove extra space at the bottom inside notice */
+}
+
+/* Specific notice types (add more as needed) */
+aside.notice-info {
+    border-left-color: var(--link-color);
+    /* Use rgba equivalent of the new --link-color #74e6f7 */
+    background-color: rgba(116, 230, 247, 0.1);
+}
+
+aside.notice-warning {
+    border-left-color: #ffcc00; /* Yellow */
+    background-color: rgba(255, 204, 0, 0.1);
+}
+
+aside.notice-error {
+    border-left-color: #e94560; /* Accent color (red) */
+    background-color: rgba(233, 69, 96, 0.1);
+}
+
+aside.notice-success {
+    border-left-color: #4caf50; /* Green */
+    background-color: rgba(76, 175, 80, 0.1);
+} 

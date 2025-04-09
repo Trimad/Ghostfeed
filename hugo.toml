@@ -1,0 +1,24 @@
+baseURL = 'https://example.org/'
+languageCode = 'en-us'
+title = 'Ghostfeed'
+
+theme = "Ghostfeed"
+
+enableGitInfo = true
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+  section = ["HTML", "RSS"]
+  taxonomy = ["HTML", "RSS"]
+  term = ["HTML", "RSS"]
+
+[params]
+  description = "Your site description goes here."
+  # Add other site-wide parameters here
+
+# Enable robots.txt and sitemap generation (usually enabled by default)
+enableRobotsTXT = true

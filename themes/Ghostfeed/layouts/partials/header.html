@@ -1,0 +1,26 @@
+<nav>
+    <h1><a href="{{ .Site.BaseURL }}">{{ .Site.Title }}</a></h1>
+    <!-- Navigation links can go here -->
+    <div>
+        {{ with .Site.Taxonomies.categories }}
+        <section>
+            <h2>Categories</h2>
+            <ul>
+                {{ range . }}
+                <li><a href="{{ .Page.Permalink }}">{{ .Page.Title }} ({{ .Count }})</a></li>
+                {{ end }}
+            </ul>
+        </section>
+        {{ end }}
+        {{ with .Site.Taxonomies.tags }}
+        <section>
+            <h2>Tags</h2>
+            <ul>
+                {{ range . }}
+                <li><a href="{{ .Page.Permalink }}">{{ .Page.Title }} ({{ .Count }})</a></li>
+                {{ end }}
+            </ul>
+        </section>
+        {{ end }}
+    </div>
+</nav>
