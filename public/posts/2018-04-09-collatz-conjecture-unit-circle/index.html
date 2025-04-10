@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="I created my own Collatz Conjecture visualization, experimenting with a unit circle design that resulted in 360 distinct &ldquo;branches&rdquo;. While it may not offer groundbreaking insights, the process was enjoyable and yielded interesting results, particularly for the number 327.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://trimad.github.io/posts/2018-04-09-collatz-conjecture-unit-circle/">
+    
+    <title>Collatz Conjecture &#43; Unit Circle | Ghostfeed</title>
+    <link rel="stylesheet" href="/css/style.css">
+    </head>
+<body>
+    <div class="container">
+        <nav class="search-container">
+            <input type="search" id="post-search" placeholder="Search posts..." aria-label="Search posts">
+        </nav>
+
+        <div class="left-column-wrapper">
+            <nav class="nav-left">
+                
+                    <h2>Sections</h2>
+<ul>
+    
+    
+        <li><a href="/archive/">Archive</a></li>
+    
+        <li><a href="/posts/">Posts</a></li>
+    
+</ul> 
+                
+            </nav>
+            <div class="qr-code-container">
+                <img src="/images/BTC.svg" alt="Bitcoin QR Code">
+                <p>BTC</p>
+            </div>
+        </div>
+
+        <main>
+            
+<article class="post">
+    <header>
+        <h1>Collatz Conjecture &#43; Unit Circle</h1>
+        <p>
+            Published: April 9, 2018
+            
+                
+                    | Last Modified: April 9, 2025
+                
+            
+        </p>
+        
+            <p>Tags: 
+            
+                <a href="/tags/collatz-conjecture">collatz conjecture</a> 
+            
+                <a href="/tags/3n&#43;1">3n&#43;1</a> 
+            
+            </p>
+        
+        
+            <p>Categories: 
+            
+                <a href="/categories/java">Java</a> 
+            
+                <a href="/categories/processing">Processing</a> 
+            
+            </p>
+        
+    </header>
+    <section>
+        <p>Inspired by <!-- raw HTML omitted -->this cool page<!-- raw HTML omitted -->, I decided to make my own Collatz Conjecture visualization. My first try looked a lot like what I saw in the Numberphile video, which was pretty good. But then I thought of trying something new by keeping the original rules and wrapping everything around a unit circle. This created 360 &ldquo;branches&rdquo;, each showing a 1-degree turn.</p>
+<p>Even though this new approach might not reveal any groundbreaking insights into the Collatz Conjecture, I had a lot of fun with it and got some interesting results. The number 327, in particular, had a really long and cool path in this version.</p>
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://www.youtube.com/embed/8wpbfGuhH4g" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Java" data-lang="Java"><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.*;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> howMany <span style="color:#f92672">=</span> 361;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> howManyFrames <span style="color:#f92672">=</span> 9840; <span style="color:#75715e">//2:44 @ 60FPS</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> size<span style="color:#f92672">=</span>30;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Stack<span style="color:#f92672">[]</span> stacks <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Stack<span style="color:#f92672">[</span>howMany<span style="color:#f92672">]</span>;
+</span></span><span style="display:flex;"><span>Turtle<span style="color:#f92672">[]</span> turtles <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Turtle<span style="color:#f92672">[</span>howMany<span style="color:#f92672">]</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setup</span>() {
+</span></span><span style="display:flex;"><span>  size(1080,1080, P3D);
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">//fullScreen(P3D);</span>
+</span></span><span style="display:flex;"><span>  background(0);
+</span></span><span style="display:flex;"><span>  textAlign(LEFT, CENTER);
+</span></span><span style="display:flex;"><span>  textSize(size);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0; i <span style="color:#f92672">&lt;</span> howMany; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>    stacks<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Stack();
+</span></span><span style="display:flex;"><span>    collatz(i, stacks<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span>);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0; i <span style="color:#f92672">&lt;</span> howMany; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>    turtles<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Turtle(width<span style="color:#f92672">/</span>4, height<span style="color:#f92672">/</span>4, stacks<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span>);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">collatz</span>(<span style="color:#66d9ef">int</span> n, Stack s) {
+</span></span><span style="display:flex;"><span>  s.<span style="color:#a6e22e">add</span>(n);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">==</span> 1 <span style="color:#f92672">||</span> n<span style="color:#f92672">==</span>0) <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">%</span> 2 <span style="color:#f92672">==</span> 0) collatz(n <span style="color:#f92672">/</span> 2, s);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">else</span> collatz(3<span style="color:#f92672">*</span>n <span style="color:#f92672">+</span> 1, s);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">draw</span>() {
+</span></span><span style="display:flex;"><span>  translate(width<span style="color:#f92672">/</span>2, height<span style="color:#f92672">/</span>2, <span style="color:#f92672">-</span>1750);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 1; i <span style="color:#f92672">&lt;</span> howMany; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span> m <span style="color:#f92672">=</span> map(i, 0, howMany<span style="color:#f92672">-</span>2, 0, (<span style="color:#66d9ef">float</span>)Math.<span style="color:#a6e22e">PI</span><span style="color:#f92672">*</span>2);
+</span></span><span style="display:flex;"><span>    rotateZ(<span style="color:#f92672">-</span>m);  
+</span></span><span style="display:flex;"><span>    turtles<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span>.<span style="color:#a6e22e">crawl</span>();
+</span></span><span style="display:flex;"><span>    rotateZ(m);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  if (frameCount&lt;howManyFrames+1) {
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    saveFrame(&#34;frame-####.png&#34;);
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  } else {
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    exit();
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  }
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  */</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">keyTyped</span>() {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">int</span>(key) <span style="color:#f92672">==</span>32) {
+</span></span><span style="display:flex;"><span>    saveFrame(<span style="color:#e6db74">&#34;frame-####.png&#34;</span>);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Java" data-lang="Java"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Turtle</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  PVector v1;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> counter;
+</span></span><span style="display:flex;"><span>  Stack values;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  Turtle(<span style="color:#66d9ef">float</span> _x, <span style="color:#66d9ef">float</span> _y, Stack _values) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">v1</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> PVector(_x, _y, 0);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">values</span> <span style="color:#f92672">=</span> _values;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">counter</span> <span style="color:#f92672">=</span> 1;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">crawl</span>() {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span> rg <span style="color:#f92672">=</span> map(counter, 0, <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">values</span>.<span style="color:#a6e22e">size</span>(), 0, 255);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span> b <span style="color:#f92672">=</span> map(frameCount, 0, howManyFrames, 0, 255);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (counter<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">values</span>.<span style="color:#a6e22e">size</span>()) {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">int</span> d <span style="color:#f92672">=</span> (<span style="color:#66d9ef">int</span>)<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">values</span>.<span style="color:#a6e22e">get</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">counter</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">//PVector v2 = PVector.fromAngle(degrees(d));</span>
+</span></span><span style="display:flex;"><span>      PVector v2 <span style="color:#f92672">=</span> PVector.<span style="color:#a6e22e">fromAngle</span>(radians(d));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">x</span> <span style="color:#f92672">+=</span> v2.<span style="color:#a6e22e">x</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">y</span> <span style="color:#f92672">+=</span> v2.<span style="color:#a6e22e">y</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      stroke(0, 31);
+</span></span><span style="display:flex;"><span>      fill(255<span style="color:#f92672">-</span>rg, rg, b);
+</span></span><span style="display:flex;"><span>      ellipse(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">x</span>, <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">y</span>, size, size);
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">//noStroke();</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">//fill(53, m, 255-m);</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">//ellipse(this.v1.x, this.v1.y, size, size);</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">//fill(255);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">//text(this.values.get(0)+&#34;&#34;, this.v1.x+size/2, this.v1.y);</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (frameCount<span style="color:#f92672">%</span>60<span style="color:#f92672">==</span>0) {
+</span></span><span style="display:flex;"><span>      counter<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+    </section>
+</article>
+
+        </main>
+        <aside class="nav-right">
+            
+                
+<section>
+    <h2>Categories</h2>
+    <ul>
+        
+        <li><a href="/categories/c#/">C# (2)</a></li>
+        
+        <li><a href="/categories/c&#43;&#43;/">C&#43;&#43; (1)</a></li>
+        
+        <li><a href="/categories/dns/">DNS (1)</a></li>
+        
+        <li><a href="/categories/java/">Java (32)</a></li>
+        
+        <li><a href="/categories/javascript/">JavaScript (18)</a></li>
+        
+        <li><a href="/categories/masm/">MASM (3)</a></li>
+        
+        <li><a href="/categories/nodejs/">nodejs (1)</a></li>
+        
+        <li><a href="/categories/p5.js/">p5.js (9)</a></li>
+        
+        <li><a href="/categories/powershell/">PowerShell (23)</a></li>
+        
+        <li><a href="/categories/processing/">Processing (14)</a></li>
+        
+        <li><a href="/categories/python/">python (15)</a></li>
+        
+        <li><a href="/categories/security/">Security (1)</a></li>
+        
+        <li><a href="/categories/shell/">Shell (17)</a></li>
+        
+    </ul>
+</section>
+
+
+<section>
+    <h2>Tags</h2>
+    <ul>
+        
+        <li><a href="/tags/10print/">10PRINT (1)</a></li>
+        
+        <li><a href="/tags/3n&#43;1/">3n&#43;1 (1)</a></li>
+        
+        <li><a href="/tags/acl/">acl (1)</a></li>
+        
+        <li><a href="/tags/active-directory/">active directory (2)</a></li>
+        
+        <li><a href="/tags/activedirectory/">ActiveDirectory (1)</a></li>
+        
+        <li><a href="/tags/ai/">ai (9)</a></li>
+        
+        <li><a href="/tags/android/">android (1)</a></li>
+        
+        <li><a href="/tags/animation/">animation (8)</a></li>
+        
+        <li><a href="/tags/appx/">appx (1)</a></li>
+        
+        <li><a href="/tags/assembly/">assembly (3)</a></li>
+        
+        <li><a href="/tags/audio/">audio (3)</a></li>
+        
+        <li><a href="/tags/azure/">azure (3)</a></li>
+        
+        <li><a href="/tags/bat/">bat (2)</a></li>
+        
+        <li><a href="/tags/bipartite-graph/">bipartite graph (1)</a></li>
+        
+        <li><a href="/tags/bitset/">bitset (1)</a></li>
+        
+        <li><a href="/tags/blue/">blue (1)</a></li>
+        
+        <li><a href="/tags/buddhabrot/">buddhabrot (1)</a></li>
+        
+        <li><a href="/tags/calendars/">calendars (1)</a></li>
+        
+        <li><a href="/tags/coding-challenge/">coding challenge (15)</a></li>
+        
+        <li><a href="/tags/collatz-conjecture/">collatz conjecture (1)</a></li>
+        
+        <li><a href="/tags/command-line/">Command Line (1)</a></li>
+        
+        <li><a href="/tags/counting-sort/">counting sort (1)</a></li>
+        
+        <li><a href="/tags/dag/">dag (1)</a></li>
+        
+        <li><a href="/tags/depth-map/">depth map (1)</a></li>
+        
+        <li><a href="/tags/directed-acyclic-graph/">directed acyclic graph (1)</a></li>
+        
+        <li><a href="/tags/disjoint-set/">disjoint set (1)</a></li>
+        
+        <li><a href="/tags/distance/">distance (1)</a></li>
+        
+        <li><a href="/tags/dns/">DNS (2)</a></li>
+        
+        <li><a href="/tags/domain/">domain (2)</a></li>
+        
+        <li><a href="/tags/download/">download (2)</a></li>
+        
+        <li><a href="/tags/drivers/">drivers (1)</a></li>
+        
+        <li><a href="/tags/drives/">drives (1)</a></li>
+        
+        <li><a href="/tags/email-security/">email security (1)</a></li>
+        
+        <li><a href="/tags/exchangeonlinemanagement/">ExchangeOnlineManagement (5)</a></li>
+        
+        <li><a href="/tags/ffmpeg/">ffmpeg (2)</a></li>
+        
+        <li><a href="/tags/fibonacci/">fibonacci (1)</a></li>
+        
+        <li><a href="/tags/finance/">finance (1)</a></li>
+        
+        <li><a href="/tags/firewall/">firewall (1)</a></li>
+        
+        <li><a href="/tags/fractal/">fractal (3)</a></li>
+        
+        <li><a href="/tags/genesys-cloud/">Genesys Cloud (1)</a></li>
+        
+        <li><a href="/tags/google-apps-script/">Google Apps Script (1)</a></li>
+        
+        <li><a href="/tags/google-forms/">google forms (1)</a></li>
+        
+        <li><a href="/tags/green/">green (1)</a></li>
+        
+        <li><a href="/tags/group/">group (1)</a></li>
+        
+        <li><a href="/tags/gsuite/">gsuite (1)</a></li>
+        
+        <li><a href="/tags/hacked-accounts/">hacked accounts (1)</a></li>
+        
+        <li><a href="/tags/images/">images (7)</a></li>
+        
+        <li><a href="/tags/insertion-sort/">insertion sort (1)</a></li>
+        
+        <li><a href="/tags/interactive/">interactive (9)</a></li>
+        
+        <li><a href="/tags/ip/">ip (1)</a></li>
+        
+        <li><a href="/tags/it-admin/">IT Admin (1)</a></li>
+        
+        <li><a href="/tags/javascript/">JavaScript (1)</a></li>
+        
+        <li><a href="/tags/juno/">juno (1)</a></li>
+        
+        <li><a href="/tags/jupiter/">jupiter (1)</a></li>
+        
+        <li><a href="/tags/k-means/">k-means (1)</a></li>
+        
+        <li><a href="/tags/kattis/">kattis (6)</a></li>
+        
+        <li><a href="/tags/kruskals-algorithm/">kruskal&#39;s algorithm (1)</a></li>
+        
+        <li><a href="/tags/lorenz-system/">lorenz system (1)</a></li>
+        
+        <li><a href="/tags/m365/">M365 (3)</a></li>
+        
+        <li><a href="/tags/maximum-flow/">maximum flow (1)</a></li>
+        
+        <li><a href="/tags/merge-sort/">merge sort (1)</a></li>
+        
+        <li><a href="/tags/microsoft-office/">Microsoft Office (1)</a></li>
+        
+        <li><a href="/tags/microsoft-teams/">microsoft teams (1)</a></li>
+        
+        <li><a href="/tags/minimum-spanning-tree/">minimum spanning tree (2)</a></li>
+        
+        <li><a href="/tags/msexchhidefromaddresslists/">msExchHideFromAddressLists (1)</a></li>
+        
+        <li><a href="/tags/net/">net (2)</a></li>
+        
+        <li><a href="/tags/netsh/">netsh (2)</a></li>
+        
+        <li><a href="/tags/network-drives/">network drives (1)</a></li>
+        
+        <li><a href="/tags/networking/">Networking (1)</a></li>
+        
+        <li><a href="/tags/office/">office (1)</a></li>
+        
+        <li><a href="/tags/officec2rclient/">OfficeC2RClient (1)</a></li>
+        
+        <li><a href="/tags/open-simplex-noise/">open simplex noise (3)</a></li>
+        
+        <li><a href="/tags/p5.js/">p5.js (2)</a></li>
+        
+        <li><a href="/tags/passwords/">passwords (3)</a></li>
+        
+        <li><a href="/tags/perlin-noise/">perlin noise (1)</a></li>
+        
+        <li><a href="/tags/permissions/">permissions (2)</a></li>
+        
+        <li><a href="/tags/phishing/">phishing (1)</a></li>
+        
+        <li><a href="/tags/pil/">PIL (1)</a></li>
+        
+        <li><a href="/tags/powershell/">PowerShell (5)</a></li>
+        
+        <li><a href="/tags/prime-numbers/">prime numbers (3)</a></li>
+        
+        <li><a href="/tags/prims-algorithm/">prim&#39;s algorithm (1)</a></li>
+        
+        <li><a href="/tags/printers/">printers (1)</a></li>
+        
+        <li><a href="/tags/processing/">processing (2)</a></li>
+        
+        <li><a href="/tags/python/">Python (3)</a></li>
+        
+        <li><a href="/tags/red/">red (1)</a></li>
+        
+        <li><a href="/tags/regedit/">regedit (1)</a></li>
+        
+        <li><a href="/tags/registry-modification/">registry modification (1)</a></li>
+        
+        <li><a href="/tags/reports/">reports (5)</a></li>
+        
+        <li><a href="/tags/robocopy/">robocopy (1)</a></li>
+        
+        <li><a href="/tags/sdk/">SDK (1)</a></li>
+        
+        <li><a href="/tags/security/">security (1)</a></li>
+        
+        <li><a href="/tags/shell/">shell (1)</a></li>
+        
+        <li><a href="/tags/sid/">SID (1)</a></li>
+        
+        <li><a href="/tags/smtp/">smtp (1)</a></li>
+        
+        <li><a href="/tags/sorting/">sorting (3)</a></li>
+        
+        <li><a href="/tags/sound/">sound (1)</a></li>
+        
+        <li><a href="/tags/space/">space (1)</a></li>
+        
+        <li><a href="/tags/spiral/">spiral (1)</a></li>
+        
+        <li><a href="/tags/stocks/">stocks (1)</a></li>
+        
+        <li><a href="/tags/string/">string (1)</a></li>
+        
+        <li><a href="/tags/systeminfo/">systeminfo (1)</a></li>
+        
+        <li><a href="/tags/time/">time (1)</a></li>
+        
+        <li><a href="/tags/topological-sort/">topological sort (1)</a></li>
+        
+        <li><a href="/tags/tzutil/">tzutil (1)</a></li>
+        
+        <li><a href="/tags/uva/">uva (9)</a></li>
+        
+        <li><a href="/tags/vbscript/">VBScript (1)</a></li>
+        
+        <li><a href="/tags/version-management/">Version Management (1)</a></li>
+        
+        <li><a href="/tags/video/">video (8)</a></li>
+        
+        <li><a href="/tags/win32_operatingsystem/">Win32_OperatingSystem (1)</a></li>
+        
+        <li><a href="/tags/windows/">Windows (1)</a></li>
+        
+        <li><a href="/tags/wmic/">wmic (1)</a></li>
+        
+        <li><a href="/tags/youtube-dl/">youtube-dl (1)</a></li>
+        
+        <li><a href="/tags/yt-dlp/">yt-dlp (1)</a></li>
+        
+    </ul>
+</section>
+ 
+            
+        </aside>
+    </div>
+    <footer>
+        
+            <p>&copy; 2025 Ghostfeed. All rights reserved.</p>
+
+
+<footer>
+    
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('post-search');
+    const posts = document.querySelectorAll('.post-preview'); 
+
+    if (searchInput && posts.length > 0) {
+        searchInput.addEventListener('keyup', function() {
+            const searchTerm = searchInput.value.toLowerCase();
+
+            posts.forEach(function(post) {
+                const titleElement = post.querySelector('h3 a'); 
+                const summaryElement = post.querySelector('p'); 
+                const tagsElement = post.querySelector('.tags'); 
+                const hrElement = post.nextElementSibling; 
+
+                let textToSearch = '';
+
+                if (titleElement) {
+                    textToSearch += titleElement.textContent.toLowerCase() + ' ';
+                }
+                if (summaryElement) {
+                    textToSearch += summaryElement.textContent.toLowerCase() + ' '; 
+                }
+                if (tagsElement) {
+                    textToSearch += tagsElement.textContent.toLowerCase();
+                }
+
+                const shouldShow = textToSearch.includes(searchTerm);
+                post.style.display = shouldShow ? '' : 'none'; 
+
+                
+                if (hrElement && hrElement.tagName === 'HR') {
+                    hrElement.style.display = shouldShow ? '' : 'none';
+                }
+            });
+        });
+    }
+});
+</script>
+
+        
+    </footer>
+</body>
+</html>

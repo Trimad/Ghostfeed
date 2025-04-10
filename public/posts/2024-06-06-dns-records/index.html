@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A cheat sheet with a comprehensive list of options for DNS records.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://trimad.github.io/posts/2024-06-06-dns-records/">
+    
+    <title>DNS Records | Ghostfeed</title>
+    <link rel="stylesheet" href="/css/style.css">
+    </head>
+<body>
+    <div class="container">
+        <nav class="search-container">
+            <input type="search" id="post-search" placeholder="Search posts..." aria-label="Search posts">
+        </nav>
+
+        <div class="left-column-wrapper">
+            <nav class="nav-left">
+                
+                    <h2>Sections</h2>
+<ul>
+    
+    
+        <li><a href="/archive/">Archive</a></li>
+    
+        <li><a href="/posts/">Posts</a></li>
+    
+</ul> 
+                
+            </nav>
+            <div class="qr-code-container">
+                <img src="/images/BTC.svg" alt="Bitcoin QR Code">
+                <p>BTC</p>
+            </div>
+        </div>
+
+        <main>
+            
+<article class="post">
+    <header>
+        <h1>DNS Records</h1>
+        <p>
+            Published: June 6, 2024
+            
+                
+                    | Last Modified: April 9, 2025
+                
+            
+        </p>
+        
+            <p>Tags: 
+            
+                <a href="/tags/dns">DNS</a> 
+            
+            </p>
+        
+        
+            <p>Categories: 
+            
+                <a href="/categories/dns">DNS</a> 
+            
+            </p>
+        
+    </header>
+    <section>
+        <h2 id="dmarc">DMARC</h2>
+<p>DMARC (Domain-based Message Authentication, Reporting, and Conformance) is an email authentication protocol that builds on SPF and DKIM (DomainKeys Identified Mail). It allows domain owners to publish policies on how email from their domain should be handled if it fails authentication checks. DMARC provides a way to monitor and improve the security of email sent from your domain, reducing the risk of phishing and email spoofing.</p>
+<h3 id="v-version">v (version)</h3>
+<p> Specifies the DMARC version. It is mandatory and must be included.</p>
+<pre tabindex="0"><code>v=DMARC1;
+</code></pre><p>There are no other versions of DMARC currently in use or specified.</p>
+<h3 id="p-policy">p (Policy)</h3>
+<p>Specifies the action to be taken on emails that fail authentication checks.</p>
+<h4 id="none">none</h4>
+<p>No action is taken; only monitoring is performed.</p>
+<pre tabindex="0"><code>p=none;
+</code></pre><h4 id="quarantine">quarantine</h4>
+<p>Messages that fail DMARC checks are treated with suspicion.</p>
+<pre tabindex="0"><code>p=quarantine;
+</code></pre><h4 id="reject">reject</h4>
+<p>Messages that fail DMARC checks are rejected outright.</p>
+<pre tabindex="0"><code>p=reject;
+</code></pre><h3 id="sp-subdomain-policy">sp (Subdomain Policy)</h3>
+<p>Specifies the policy to be applied to emails from subdomains.</p>
+<h4 id="none-1">none</h4>
+<p>No action is taken for subdomains; only monitoring.</p>
+<pre tabindex="0"><code>sp=none;
+</code></pre><h4 id="quarantine-1">quarantine</h4>
+<p>Subdomain messages that fail DMARC checks are treated with suspicion.</p>
+<pre tabindex="0"><code>sp=quarantine;
+</code></pre><h4 id="reject-1">reject</h4>
+<p>Subdomain messages that fail DMARC checks are rejected outright.</p>
+<pre tabindex="0"><code>sp=reject;
+</code></pre><h3 id="pct-percentage">pct (Percentage)</h3>
+<p>Percentage of messages to which the policy is applied. Can be any number from 1 to 100.</p>
+<pre tabindex="0"><code>pct=50;
+</code></pre><h3 id="rua-aggregate-reports">rua (Aggregate Reports)</h3>
+<p>Email address(es) to send aggregate reports to. Multiple addresses can be separated by commas.</p>
+<pre tabindex="0"><code>rua=mailto:aggregate@example.com,mailto:another@example.com;
+</code></pre><h3 id="ruf-forensic-reports">ruf (Forensic Reports)</h3>
+<p>Email address(es) to send forensic (failure) reports to. Multiple addresses can be separated by commas.</p>
+<pre tabindex="0"><code>ruf=mailto:forensic@example.com,mailto:anotherforensic@example.com;
+</code></pre><h3 id="fo-forensic-options">fo (Forensic Options)</h3>
+<h4 id="0">0</h4>
+<p>Generate reports if all checks fail (default).</p>
+<pre tabindex="0"><code>fo=0;
+</code></pre><h4 id="1">1</h4>
+<p>Generate reports if any single check fails.</p>
+<pre tabindex="0"><code>fo=1;
+</code></pre><h4 id="d">d</h4>
+<p>Generate reports if DKIM fails.</p>
+<pre tabindex="0"><code>fo=d;
+</code></pre><h4 id="s">s</h4>
+<p>Generate reports if SPF fails.</p>
+<pre tabindex="0"><code>fo=s;
+</code></pre><h3 id="rf-report-format">rf (Report Format)</h3>
+<h4 id="afrf">afrf</h4>
+<p>Authentication Failure Reporting Format (default).</p>
+<pre tabindex="0"><code>rf=afrf;
+</code></pre><h4 id="rfiodef">rf=iodef</h4>
+<p>Incident Object Description Exchange Format.</p>
+<pre tabindex="0"><code>rf=iodef;
+</code></pre><h3 id="ri-report-interval">ri (Report Interval)</h3>
+<p>Interval in seconds between aggregate reports (default is 86400 seconds or 24 hours).</p>
+<pre tabindex="0"><code>ri=86400;
+</code></pre><h3 id="adkim-dkim-alignment">adkim (DKIM Alignment)</h3>
+<p>Specifies the alignment mode for DKIM authentication.</p>
+<h4 id="r">r</h4>
+<p>Relaxed mode (default).</p>
+<pre tabindex="0"><code>adkim=r;
+</code></pre><h4 id="s-1">s</h4>
+<p>Strict mode.</p>
+<pre tabindex="0"><code>adkim=s;
+</code></pre><h3 id="aspf-spf-alignment">aspf (SPF Alignment)</h3>
+<h4 id="r-1">r</h4>
+<p>Relaxed mode (default).</p>
+<pre tabindex="0"><code>aspf=r;
+</code></pre><h4 id="s-2">s</h4>
+<p>Strict mode.</p>
+<pre tabindex="0"><code>aspf=s;
+</code></pre><h2 id="mx">MX</h2>
+<p>MX (Mail Exchange) records are DNS records that specify the mail servers responsible for receiving email on behalf of your domain. These records direct email to the correct mail server and are essential for the functioning of email services. Properly configured MX records ensure that emails are reliably delivered to your domain.</p>
+<h3 id="priority">Priority</h3>
+<p>Specifies the priority of the mail server. Lower values have higher priority.</p>
+<pre tabindex="0"><code>10;
+</code></pre><p>Higher priority MX records are tried first.</p>
+<h3 id="mail-server">Mail Server</h3>
+<p>Specifies the fully qualified domain name (FQDN) of the mail server.</p>
+<pre tabindex="0"><code>mail.example.com;
+</code></pre><p>The FQDN must be an A or AAAA record.</p>
+<h3 id="ttl-time-to-live">TTL (Time to Live)</h3>
+<p>Specifies the time in seconds that the record may be cached by resolvers.</p>
+<pre tabindex="0"><code>3600;
+</code></pre><p>The default value is typically 3600 seconds (1 hour).</p>
+<h3 id="example-mx-record">Example MX Record</h3>
+<p>An MX record consists of a priority and a mail server.</p>
+<pre tabindex="0"><code>10 mail.example.com;
+</code></pre><p>In this example, <code>mail.example.com</code> is the mail server with a priority of 10.</p>
+<h3 id="multiple-mx-records">Multiple MX Records</h3>
+<p>Multiple MX records can be specified to provide redundancy.</p>
+<h4 id="example">Example</h4>
+<pre tabindex="0"><code>10 mail1.example.com;
+20 mail2.example.com;
+</code></pre><p><code>mail1.example.com</code> has a higher priority and will be tried first. If it fails, <code>mail2.example.com</code> will be used.</p>
+<h3 id="setting-up-mx-records">Setting Up MX Records</h3>
+<ol>
+<li><strong>Access your DNS provider&rsquo;s management console.</strong></li>
+<li><strong>Navigate to the DNS settings for your domain.</strong></li>
+<li><strong>Add a new MX record with the appropriate priority and mail server.</strong></li>
+<li><strong>Save the changes and wait for DNS propagation.</strong></li>
+</ol>
+<h3 id="verifying-mx-records">Verifying MX Records</h3>
+<p>You can verify MX records using tools like <code>nslookup</code> or online DNS checkers.</p>
+<h4 id="using-nslookup">Using <code>nslookup</code></h4>
+<pre tabindex="0"><code>nslookup -query=mx example.com
+</code></pre><p>This will display the MX records for <code>example.com</code>.</p>
+<h3 id="common-issues">Common Issues</h3>
+<ul>
+<li><strong>Incorrect priority values:</strong> Ensure that priority values are integers and the lower values have higher priority.</li>
+<li><strong>Invalid mail server FQDN:</strong> Verify that the FQDN is correct and points to an A or AAAA record.</li>
+<li><strong>TTL settings:</strong> Ensure the TTL value is appropriate for your needs and not set too low.</li>
+</ul>
+<p>By correctly configuring your MX records, you can ensure reliable email delivery for your domain.</p>
+<h2 id="spf">SPF</h2>
+<p>SPF (Sender Policy Framework) is an email authentication method designed to detect forging sender addresses during the delivery of emails. By specifying which mail servers are permitted to send emails on behalf of your domain, SPF helps reduce spam and phishing by making it harder for attackers to send emails with forged &lsquo;From&rsquo; addresses.</p>
+<h3 id="v-version-1">v (version)</h3>
+<p>Specifies the SPF version. It is mandatory and must be included.</p>
+<pre tabindex="0"><code>v=spf1;
+</code></pre><p>There are no other versions of SPF currently in use or specified.</p>
+<h3 id="ip4-ipv4-address">ip4 (IPv4 Address)</h3>
+<p>Specifies an IPv4 address that is authorized to send emails on behalf of the domain.</p>
+<pre tabindex="0"><code>ip4:192.168.0.1;
+</code></pre><h3 id="ip6-ipv6-address">ip6 (IPv6 Address)</h3>
+<p>Specifies an IPv6 address that is authorized to send emails on behalf of the domain.</p>
+<pre tabindex="0"><code>ip6:2001:0db8:85a3:0000:0000:8a2e:0370:7334;
+</code></pre><h3 id="include">include</h3>
+<p>Includes the SPF records of another domain.</p>
+<pre tabindex="0"><code>include:example.com;
+</code></pre><h3 id="all">all</h3>
+<p>Specifies the default policy for any other IP addresses not matched by earlier mechanisms.</p>
+<h4 id="all-softfail">~all (SoftFail)</h4>
+<p>Emails that do not match are marked, but still accepted.</p>
+<pre tabindex="0"><code>~all;
+</code></pre><h4 id="-all-fail">-all (Fail)</h4>
+<p>Emails that do not match are rejected.</p>
+<pre tabindex="0"><code>-all;
+</code></pre><h4 id="all-neutral">?all (Neutral)</h4>
+<p>No specific action is taken for emails that do not match.</p>
+<pre tabindex="0"><code>?all;
+</code></pre>
+    </section>
+</article>
+
+        </main>
+        <aside class="nav-right">
+            
+                
+<section>
+    <h2>Categories</h2>
+    <ul>
+        
+        <li><a href="/categories/c#/">C# (2)</a></li>
+        
+        <li><a href="/categories/c&#43;&#43;/">C&#43;&#43; (1)</a></li>
+        
+        <li><a href="/categories/dns/">DNS (1)</a></li>
+        
+        <li><a href="/categories/java/">Java (32)</a></li>
+        
+        <li><a href="/categories/javascript/">JavaScript (18)</a></li>
+        
+        <li><a href="/categories/masm/">MASM (3)</a></li>
+        
+        <li><a href="/categories/nodejs/">nodejs (1)</a></li>
+        
+        <li><a href="/categories/p5.js/">p5.js (9)</a></li>
+        
+        <li><a href="/categories/powershell/">PowerShell (23)</a></li>
+        
+        <li><a href="/categories/processing/">Processing (14)</a></li>
+        
+        <li><a href="/categories/python/">python (15)</a></li>
+        
+        <li><a href="/categories/security/">Security (1)</a></li>
+        
+        <li><a href="/categories/shell/">Shell (17)</a></li>
+        
+    </ul>
+</section>
+
+
+<section>
+    <h2>Tags</h2>
+    <ul>
+        
+        <li><a href="/tags/10print/">10PRINT (1)</a></li>
+        
+        <li><a href="/tags/3n&#43;1/">3n&#43;1 (1)</a></li>
+        
+        <li><a href="/tags/acl/">acl (1)</a></li>
+        
+        <li><a href="/tags/active-directory/">active directory (2)</a></li>
+        
+        <li><a href="/tags/activedirectory/">ActiveDirectory (1)</a></li>
+        
+        <li><a href="/tags/ai/">ai (9)</a></li>
+        
+        <li><a href="/tags/android/">android (1)</a></li>
+        
+        <li><a href="/tags/animation/">animation (8)</a></li>
+        
+        <li><a href="/tags/appx/">appx (1)</a></li>
+        
+        <li><a href="/tags/assembly/">assembly (3)</a></li>
+        
+        <li><a href="/tags/audio/">audio (3)</a></li>
+        
+        <li><a href="/tags/azure/">azure (3)</a></li>
+        
+        <li><a href="/tags/bat/">bat (2)</a></li>
+        
+        <li><a href="/tags/bipartite-graph/">bipartite graph (1)</a></li>
+        
+        <li><a href="/tags/bitset/">bitset (1)</a></li>
+        
+        <li><a href="/tags/blue/">blue (1)</a></li>
+        
+        <li><a href="/tags/buddhabrot/">buddhabrot (1)</a></li>
+        
+        <li><a href="/tags/calendars/">calendars (1)</a></li>
+        
+        <li><a href="/tags/coding-challenge/">coding challenge (15)</a></li>
+        
+        <li><a href="/tags/collatz-conjecture/">collatz conjecture (1)</a></li>
+        
+        <li><a href="/tags/command-line/">Command Line (1)</a></li>
+        
+        <li><a href="/tags/counting-sort/">counting sort (1)</a></li>
+        
+        <li><a href="/tags/dag/">dag (1)</a></li>
+        
+        <li><a href="/tags/depth-map/">depth map (1)</a></li>
+        
+        <li><a href="/tags/directed-acyclic-graph/">directed acyclic graph (1)</a></li>
+        
+        <li><a href="/tags/disjoint-set/">disjoint set (1)</a></li>
+        
+        <li><a href="/tags/distance/">distance (1)</a></li>
+        
+        <li><a href="/tags/dns/">DNS (2)</a></li>
+        
+        <li><a href="/tags/domain/">domain (2)</a></li>
+        
+        <li><a href="/tags/download/">download (2)</a></li>
+        
+        <li><a href="/tags/drivers/">drivers (1)</a></li>
+        
+        <li><a href="/tags/drives/">drives (1)</a></li>
+        
+        <li><a href="/tags/email-security/">email security (1)</a></li>
+        
+        <li><a href="/tags/exchangeonlinemanagement/">ExchangeOnlineManagement (5)</a></li>
+        
+        <li><a href="/tags/ffmpeg/">ffmpeg (2)</a></li>
+        
+        <li><a href="/tags/fibonacci/">fibonacci (1)</a></li>
+        
+        <li><a href="/tags/finance/">finance (1)</a></li>
+        
+        <li><a href="/tags/firewall/">firewall (1)</a></li>
+        
+        <li><a href="/tags/fractal/">fractal (3)</a></li>
+        
+        <li><a href="/tags/genesys-cloud/">Genesys Cloud (1)</a></li>
+        
+        <li><a href="/tags/google-apps-script/">Google Apps Script (1)</a></li>
+        
+        <li><a href="/tags/google-forms/">google forms (1)</a></li>
+        
+        <li><a href="/tags/green/">green (1)</a></li>
+        
+        <li><a href="/tags/group/">group (1)</a></li>
+        
+        <li><a href="/tags/gsuite/">gsuite (1)</a></li>
+        
+        <li><a href="/tags/hacked-accounts/">hacked accounts (1)</a></li>
+        
+        <li><a href="/tags/images/">images (7)</a></li>
+        
+        <li><a href="/tags/insertion-sort/">insertion sort (1)</a></li>
+        
+        <li><a href="/tags/interactive/">interactive (9)</a></li>
+        
+        <li><a href="/tags/ip/">ip (1)</a></li>
+        
+        <li><a href="/tags/it-admin/">IT Admin (1)</a></li>
+        
+        <li><a href="/tags/javascript/">JavaScript (1)</a></li>
+        
+        <li><a href="/tags/juno/">juno (1)</a></li>
+        
+        <li><a href="/tags/jupiter/">jupiter (1)</a></li>
+        
+        <li><a href="/tags/k-means/">k-means (1)</a></li>
+        
+        <li><a href="/tags/kattis/">kattis (6)</a></li>
+        
+        <li><a href="/tags/kruskals-algorithm/">kruskal&#39;s algorithm (1)</a></li>
+        
+        <li><a href="/tags/lorenz-system/">lorenz system (1)</a></li>
+        
+        <li><a href="/tags/m365/">M365 (3)</a></li>
+        
+        <li><a href="/tags/maximum-flow/">maximum flow (1)</a></li>
+        
+        <li><a href="/tags/merge-sort/">merge sort (1)</a></li>
+        
+        <li><a href="/tags/microsoft-office/">Microsoft Office (1)</a></li>
+        
+        <li><a href="/tags/microsoft-teams/">microsoft teams (1)</a></li>
+        
+        <li><a href="/tags/minimum-spanning-tree/">minimum spanning tree (2)</a></li>
+        
+        <li><a href="/tags/msexchhidefromaddresslists/">msExchHideFromAddressLists (1)</a></li>
+        
+        <li><a href="/tags/net/">net (2)</a></li>
+        
+        <li><a href="/tags/netsh/">netsh (2)</a></li>
+        
+        <li><a href="/tags/network-drives/">network drives (1)</a></li>
+        
+        <li><a href="/tags/networking/">Networking (1)</a></li>
+        
+        <li><a href="/tags/office/">office (1)</a></li>
+        
+        <li><a href="/tags/officec2rclient/">OfficeC2RClient (1)</a></li>
+        
+        <li><a href="/tags/open-simplex-noise/">open simplex noise (3)</a></li>
+        
+        <li><a href="/tags/p5.js/">p5.js (2)</a></li>
+        
+        <li><a href="/tags/passwords/">passwords (3)</a></li>
+        
+        <li><a href="/tags/perlin-noise/">perlin noise (1)</a></li>
+        
+        <li><a href="/tags/permissions/">permissions (2)</a></li>
+        
+        <li><a href="/tags/phishing/">phishing (1)</a></li>
+        
+        <li><a href="/tags/pil/">PIL (1)</a></li>
+        
+        <li><a href="/tags/powershell/">PowerShell (5)</a></li>
+        
+        <li><a href="/tags/prime-numbers/">prime numbers (3)</a></li>
+        
+        <li><a href="/tags/prims-algorithm/">prim&#39;s algorithm (1)</a></li>
+        
+        <li><a href="/tags/printers/">printers (1)</a></li>
+        
+        <li><a href="/tags/processing/">processing (2)</a></li>
+        
+        <li><a href="/tags/python/">Python (3)</a></li>
+        
+        <li><a href="/tags/red/">red (1)</a></li>
+        
+        <li><a href="/tags/regedit/">regedit (1)</a></li>
+        
+        <li><a href="/tags/registry-modification/">registry modification (1)</a></li>
+        
+        <li><a href="/tags/reports/">reports (5)</a></li>
+        
+        <li><a href="/tags/robocopy/">robocopy (1)</a></li>
+        
+        <li><a href="/tags/sdk/">SDK (1)</a></li>
+        
+        <li><a href="/tags/security/">security (1)</a></li>
+        
+        <li><a href="/tags/shell/">shell (1)</a></li>
+        
+        <li><a href="/tags/sid/">SID (1)</a></li>
+        
+        <li><a href="/tags/smtp/">smtp (1)</a></li>
+        
+        <li><a href="/tags/sorting/">sorting (3)</a></li>
+        
+        <li><a href="/tags/sound/">sound (1)</a></li>
+        
+        <li><a href="/tags/space/">space (1)</a></li>
+        
+        <li><a href="/tags/spiral/">spiral (1)</a></li>
+        
+        <li><a href="/tags/stocks/">stocks (1)</a></li>
+        
+        <li><a href="/tags/string/">string (1)</a></li>
+        
+        <li><a href="/tags/systeminfo/">systeminfo (1)</a></li>
+        
+        <li><a href="/tags/time/">time (1)</a></li>
+        
+        <li><a href="/tags/topological-sort/">topological sort (1)</a></li>
+        
+        <li><a href="/tags/tzutil/">tzutil (1)</a></li>
+        
+        <li><a href="/tags/uva/">uva (9)</a></li>
+        
+        <li><a href="/tags/vbscript/">VBScript (1)</a></li>
+        
+        <li><a href="/tags/version-management/">Version Management (1)</a></li>
+        
+        <li><a href="/tags/video/">video (8)</a></li>
+        
+        <li><a href="/tags/win32_operatingsystem/">Win32_OperatingSystem (1)</a></li>
+        
+        <li><a href="/tags/windows/">Windows (1)</a></li>
+        
+        <li><a href="/tags/wmic/">wmic (1)</a></li>
+        
+        <li><a href="/tags/youtube-dl/">youtube-dl (1)</a></li>
+        
+        <li><a href="/tags/yt-dlp/">yt-dlp (1)</a></li>
+        
+    </ul>
+</section>
+ 
+            
+        </aside>
+    </div>
+    <footer>
+        
+            <p>&copy; 2025 Ghostfeed. All rights reserved.</p>
+
+
+<footer>
+    
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('post-search');
+    const posts = document.querySelectorAll('.post-preview'); 
+
+    if (searchInput && posts.length > 0) {
+        searchInput.addEventListener('keyup', function() {
+            const searchTerm = searchInput.value.toLowerCase();
+
+            posts.forEach(function(post) {
+                const titleElement = post.querySelector('h3 a'); 
+                const summaryElement = post.querySelector('p'); 
+                const tagsElement = post.querySelector('.tags'); 
+                const hrElement = post.nextElementSibling; 
+
+                let textToSearch = '';
+
+                if (titleElement) {
+                    textToSearch += titleElement.textContent.toLowerCase() + ' ';
+                }
+                if (summaryElement) {
+                    textToSearch += summaryElement.textContent.toLowerCase() + ' '; 
+                }
+                if (tagsElement) {
+                    textToSearch += tagsElement.textContent.toLowerCase();
+                }
+
+                const shouldShow = textToSearch.includes(searchTerm);
+                post.style.display = shouldShow ? '' : 'none'; 
+
+                
+                if (hrElement && hrElement.tagName === 'HR') {
+                    hrElement.style.display = shouldShow ? '' : 'none';
+                }
+            });
+        });
+    }
+});
+</script>
+
+        
+    </footer>
+</body>
+</html>
