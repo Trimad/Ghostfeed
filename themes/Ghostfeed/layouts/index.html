@@ -4,7 +4,6 @@
     {{ .Content }}
 
     <section id="posts">
-        <h2>Latest Posts</h2>
         {{ range .Site.RegularPages }}
             <article class="post-preview">
                 <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
