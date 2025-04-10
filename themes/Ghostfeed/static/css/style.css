@@ -306,8 +306,8 @@ aside.notice-success {
     opacity: 0.7;
 }
 
-/* Post Tags */
-.tags a {
+/* Post Terms (Tags/Categories) */
+.term-group .term-link {
     display: inline-block;
     background-color: var(--primary-color); /* Use theme variable */
     color: var(--link-color); /* Use theme variable */
@@ -320,7 +320,7 @@ aside.notice-success {
     border: 1px solid var(--border-color); /* Add subtle border */
 }
 
-.tags a:hover {
+.term-group .term-link:hover {
     background-color: var(--secondary-color); /* Use theme variable */
     color: var(--link-hover-color); /* Use theme variable */
 } 

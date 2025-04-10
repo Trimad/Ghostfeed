@@ -1,6 +1,6 @@
 ---
 author: Tristan Madden
-categories: [PowerShell, Security]
+categories: [PowerShell]
 date: 2023-02-07
 featured: true
 lastmod: 2023-12-28
