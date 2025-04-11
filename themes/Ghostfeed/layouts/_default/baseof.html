@@ -13,10 +13,14 @@
     {{- partialCached "rss_feed_link.html" . -}}
 </head>
 <body class="{{ .Kind | lower }}">
+
     <div class="container">
         <nav class="search-container">
             <input type="search" id="post-search" placeholder="Search posts..." aria-label="Search posts">
         </nav>
+    </div>
+    
+    <div class="container">
 
         <div class="left-column-wrapper">
             <nav class="nav-left">
@@ -24,10 +28,7 @@
                     {{ partial "nav_left.html" . }}
                 {{ end }}
             </nav>
-            <div class="qr-code-container">
-                <img src="{{ "images/BTC.svg" | absURL }}" alt="Bitcoin QR Code">
-                <p>BTC</p>
-            </div>
+
         </div>
 
         <main>
@@ -44,5 +45,8 @@
             {{ partial "footer.html" . }}
         {{ end }}
     </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.1/p5.js"></script>
+    <script src="{{ "js/snow.js" | relURL }}"></script>
 </body>
 </html>
