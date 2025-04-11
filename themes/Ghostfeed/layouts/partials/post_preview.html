@@ -16,14 +16,20 @@
             {{ with .Params.tags }}
                 <div class="term-group tags">
                     {{ range . }}
-                        <a class="term-link" href="{{ "/tags/" | relURL }}{{ . | urlize }}">{{ . }}</a>
+                        {{ $term := $.Site.GetPage (printf "/tags/%s" (. | urlize)) }}
+                        {{ if $term }}
+                            <a class="term-link" href="{{ $term.RelPermalink }}">{{ . }}</a>
+                        {{ end }}
                     {{ end }}
                 </div>
             {{ end }}
             {{ with .Params.categories }}
                 <div class="term-group categories">
                     {{ range . }}
-                        <a class="term-link" href="{{ "/categories/" | relURL }}{{ . | urlize }}">{{ . }}</a>
+                        {{ $term := $.Site.GetPage (printf "/categories/%s" (. | urlize)) }}
+                        {{ if $term }}
+                            <a class="term-link" href="{{ $term.RelPermalink }}">{{ . }}</a>
+                        {{ end }}
                     {{ end }}
                 </div>
             {{ end }}

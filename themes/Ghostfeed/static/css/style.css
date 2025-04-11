@@ -53,8 +53,8 @@ body {
 /* Layout Grid */
 .container {
     display: grid;
-    grid-template-columns: 200px 1fr 200px; /* Fixed width sidebars */
-    grid-template-rows: auto 1fr;
+    grid-template-columns: 191fr 618fr 191fr; /* Use fr units for proportions */
+    grid-template-rows: auto minmax(60vh, auto);
     grid-template-areas:
         "search   search   search"
         "col-left main     col-right";
@@ -63,6 +63,7 @@ body {
     grid-area: content;
     max-width: 1600px;
     margin: 0 auto;
+    border-radius: var(--border-radius-medium);
 }
 
 /* Side Columns Common Styling */
@@ -81,7 +82,6 @@ body {
     flex-direction: column;
     gap: var(--padding-large);
     align-items: stretch;
-    align-self: start;
 }
 
 .nav-left {
@@ -90,16 +90,15 @@ body {
 
 main {
     grid-area: main;
-    padding: 0;
+    padding: var(--padding-large);
     background-color: rgba(26, 29, 41, 0.5); /* Semi-transparent main area */
     border: 1px solid var(--border-color-grid);
     border-radius: var(--border-radius-medium);
-    padding: var(--padding-large);
+    min-height: 60vh; /* Ensure minimum height to prevent layout shifts */
 }
 
 .nav-right {
     grid-area: col-right;
-    align-self: start;
 }
 
 /* QR Code Styling - Minimalist/Tech */
@@ -211,7 +210,7 @@ h1, h2, h3, h4, h5, h6 {
     text-shadow: var(--text-shadow-subtle);
 }
 
-h1 { font-size: 2.5rem; text-shadow: var(--glow-effect); }
+h1 { font-size: 2rem; text-shadow: var(--glow-effect); }
 h2 { font-size: 2rem; }
 h3 { font-size: 1.6rem; }
 h4 { font-size: 1.3rem; }
@@ -281,9 +280,10 @@ article.post header {
     margin-bottom: var(--padding-large);
 }
 
-article.post header h1 {
-    font-size: 2.8rem; /* Larger title for single post */
+article.post header h2 {
+    font-size: 2rem;
     color: var(--primary-accent);
+    margin-bottom: var(--padding-small);
     text-shadow: var(--glow-effect);
 }
 
@@ -297,25 +297,6 @@ article.post header p {
 
 article.post section {
     margin-top: var(--padding-large);
-}
-
-/* Code Blocks and Inline Code */
-code, pre {
-    background-color: var(--code-bg-color);
-    border: 1px solid var(--border-color-grid);
-    padding: var(--padding-small) var(--padding-medium);
-    border-radius: var(--border-radius-sharp);
-    font-family: 'Consolas', 'Monaco', monospace;
-    color: var(--text-color-primary);
-    font-size: 0.9em;
-    word-wrap: break-word;
-}
-
-pre {
-    padding: var(--padding-medium);
-    overflow-x: auto;
-    line-height: 1.5;
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.3); /* Inner shadow for depth */
 }
 
 /* Blockquotes - Data stream style */
@@ -390,6 +371,11 @@ aside.notice-success { border-left-color: #4CAF50; } /* Green (Success) */
     opacity: 0.8;
 }
 
+/* Hide search input on single post pages using body class */
+body.page .search-container #post-search {
+    visibility: hidden;
+}
+
 /* Post Terms (Tags/Categories) - Minimalist */
 .terms {
     display: flex;
@@ -426,15 +412,9 @@ aside.notice-success { border-left-color: #4CAF50; } /* Green (Success) */
 }
 
 /* Responsive Adjustments */
-@media (max-width: 1200px) {
-    .container {
-        grid-template-columns: 180px 1fr 180px; /* Slightly narrower sidebars */
-    }
-}
-
 @media (max-width: 992px) {
     .container {
-        grid-template-columns: 1fr 3fr; /* Drop right column */
+        grid-template-columns: 1fr 61.8%; /* Keep this for 2-col layout */
         grid-template-areas:
             "search   search"
             "col-left main"
@@ -473,7 +453,7 @@ aside.notice-success { border-left-color: #4CAF50; } /* Green (Success) */
     h2 { font-size: 1.7rem; }
     h3 { font-size: 1.4rem; }
 
-    article.post header h1 { font-size: 2.2rem; }
+    article.post header h2 { font-size: 2rem; }
 
     .nav-left h2, .nav-right h2 { font-size: 1.1rem; }
 } 

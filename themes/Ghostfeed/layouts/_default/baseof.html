@@ -12,7 +12,7 @@
     {{ block "head" . }}{{ end }}
     {{- partialCached "rss_feed_link.html" . -}}
 </head>
-<body>
+<body class="{{ .Kind | lower }}">
     <div class="container">
         <nav class="search-container">
             <input type="search" id="post-search" placeholder="Search posts..." aria-label="Search posts">

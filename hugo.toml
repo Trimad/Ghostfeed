@@ -4,6 +4,9 @@ title = 'Ghostfeed'
 
 theme = "Ghostfeed"
 
+relativeURLs = false
+canonifyURLs = true
+
 enableGitInfo = true
 
 [taxonomies]
