@@ -60,19 +60,6 @@ body::before {
   opacity: 0.1;
 }
 
-.search-container {
-  width: 100%;
-  max-width: 1600px;
-  margin: 0 auto;
-  box-sizing: border-box;
-  padding: var(--padding-large);
-  border-radius: var(--border-radius-medium);
-  border: 1px solid var(--border-color-grid);
-  background-color: var(--background-panel);
-  margin-top: var(--padding-large);
-  margin-bottom: 0;
-}
-
 .container {
   display: grid;
   grid-template-columns: 19.1% 1fr 19.1%;

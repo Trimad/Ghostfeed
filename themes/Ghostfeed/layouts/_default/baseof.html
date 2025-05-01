@@ -8,44 +8,57 @@
     <link rel="canonical" href="{{ .Permalink }}">
     {{ if .Keywords }}<meta name="keywords" content="{{ delimit .Keywords ", " }}">{{ end }}
     <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+
+    <!-- styles -->
     <link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
+
     {{ block "head" . }}{{ end }}
     {{- partialCached "rss_feed_link.html" . -}}
 </head>
 <body class="{{ .Kind | lower }}">
 
-    <div class="container">
-        <nav class="search-container">
-            <input type="search" id="post-search" placeholder="Search posts..." aria-label="Search posts">
-        </nav>
-    </div>
-    
+    <!-- single grid that holds everything -->
     <div class="container">
 
-        <div class="left-column-wrapper">
-            <nav class="nav-left">
+        <!-- left column (spans both rows) -->
+        <div class="nav-left">
+            <nav>
                 {{ block "nav-left" . }}
                     {{ partial "nav_left.html" . }}
                 {{ end }}
             </nav>
-
         </div>
 
+        <!-- top-centre: search bar -->
+        <nav class="search">
+            <input
+            type="search"
+                id="post-search"
+                placeholder="Search posts…"
+                aria-label="Search posts">
+        </nav>
+
+        <!-- centre: main content (second row) -->
         <main>
             {{ block "main" . }}{{ end }}
         </main>
-        <aside class="nav-right">
+
+        <!-- right column (spans both rows) -->
+        <div class="nav-right">
             {{ block "nav-right" . }}
                 {{ partial "nav_right.html" . }}
             {{ end }}
-        </aside>
-    </div>
+        </div>
+
+    </div> <!-- /container -->
+
     <footer>
         {{ block "footer" . }}
             {{ partial "footer.html" . }}
         {{ end }}
     </footer>
 
+    <!-- scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.1/p5.js"></script>
     <script src="{{ "js/snow.js" | relURL }}"></script>
 </body>
